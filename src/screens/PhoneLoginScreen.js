@@ -6,7 +6,13 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
 import {Colors, Typography, Spacing} from '../theme';
-import {setPhone, setLoading, setError, clearError} from '../store/authSlice';
+import {
+  setPhone,
+  setOtpSessionId,
+  setLoading,
+  setError,
+  clearError,
+} from '../store/authSlice';
 import {sendOtp} from '../api/auth';
 import {isValidPhone} from '../utils/validation';
 
@@ -34,7 +40,9 @@ const PhoneLoginScreen = ({navigation}) => {
     dispatch(setLoading(true));
 
     try {
-      await sendOtp(phoneInput.trim());
+      const response = await sendOtp(phoneInput.trim());
+      const sessionId = response?.data?.[0]?.sessionId ?? null;
+      dispatch(setOtpSessionId(sessionId));
       dispatch(setLoading(false));
       navigation.navigate('OtpVerify');
     } catch (err) {

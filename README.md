@@ -93,15 +93,26 @@ cd android
 # android/app/build/outputs/apk/release/app-release.apk
 ```
 
+### Release Build Notes
+- This project uses exact React Native-adjacent dependency versions to stay compatible with `react-native@0.76.9`.
+- Android release builds are configured with `newArchEnabled=false` for a stable assessment build path.
+
 ---
 
 ## ⚙️ Configuration
 
-### API Token
-Edit `src/api/client.js` and replace the `API_TOKEN` value:
+### Assessment Credentials
+The assessment API token is already configured in `src/api/client.js`:
 ```js
-const API_TOKEN = 'YOUR_API_TOKEN_HERE';
+const API_TOKEN = 'trial_51869851_c04cf7af301eae1c3b702156189558fe';
 ```
+
+Assessment entity reference:
+```text
+gunjit15@gmail.com
+```
+
+Note: the app currently sends `X-Api-Token` and `Authorization` headers. The `entity` value is kept as assessment metadata and is not required as an API header in this app.
 
 ### API Endpoints
 | Method | Endpoint | Description |
@@ -157,3 +168,24 @@ const API_TOKEN = 'YOUR_API_TOKEN_HERE';
 | `react-native-gesture-handler` | Gesture support |
 | `react-native-reanimated` | Smooth animations |
 | `axios` | HTTP requests |
+
+---
+
+## 📝 Submission Checklist
+
+- Push the codebase to a GitHub repository with this README.
+- Attach the release APK from `android/app/build/outputs/apk/release/app-release.apk`.
+- Include `TEST_RUNBOOK.md` and `DEMO_RUNBOOK.md` in the repo.
+- Record a demo video covering:
+  - Send OTP -> Verify OTP
+  - New user flow through Basic Info -> Sports Info -> Feedback -> Summary
+  - Back/Next navigation persistence
+  - Logout
+  - Re-login / reinstall scenario showing saved profile data loading into Summary
+
+### Suggested Demo Script
+1. Open the app and send OTP with a valid phone number.
+2. Verify OTP and show either Summary or the empty-state form flow.
+3. Fill all required fields, submit once on Feedback, and land on Summary.
+4. Tap Edit, go back and forth across screens, and show the form values persist.
+5. Logout, log back in, and show previously saved data returned from `GET /trial/player`.

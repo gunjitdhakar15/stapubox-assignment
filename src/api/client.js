@@ -4,6 +4,7 @@ import store from '../store';
 const BASE_URL = 'https://stapubox.com';
 
 const API_TOKEN = 'trial_51869851_c04cf7af301eae1c3b702156189558fe';
+const ASSESSMENT_ENTITY = 'gunjit15@gmail.com';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -11,6 +12,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'X-Api-Token': API_TOKEN,
+    entity: ASSESSMENT_ENTITY,
   },
 });
 
@@ -19,6 +21,7 @@ apiClient.interceptors.request.use(
   config => {
     const state = store.getState();
     const token = state.auth.token;
+    config.headers.entity = ASSESSMENT_ENTITY;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -40,7 +43,10 @@ apiClient.interceptors.response.use(
       }
       return Promise.reject({
         status,
-        message: data?.msg || 'Something went wrong',
+        message:
+          data?.msg ||
+          data?.error ||
+          `Request failed with status ${status}`,
         data: data,
       });
     } else if (error.request) {

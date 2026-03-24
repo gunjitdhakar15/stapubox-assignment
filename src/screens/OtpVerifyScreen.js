@@ -5,16 +5,22 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
 import {Colors, Typography, Spacing} from '../theme';
-import {setToken, setLoading, setError} from '../store/authSlice';
+import {
+  setToken,
+  setOtpSessionId,
+  setLoading,
+  setError,
+  clearError,
+} from '../store/authSlice';
 import {setFormData, setHasExistingProfile} from '../store/formSlice';
-import {verifyOtp} from '../api/auth';
+import {sendOtp, verifyOtp} from '../api/auth';
 import {getPlayer} from '../api/player';
 
 const OTP_LENGTH = 4;
 
 const OtpVerifyScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {phone, loading} = useSelector(state => state.auth);
+  const {phone, otpSessionId, loading} = useSelector(state => state.auth);
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(''));
   const [otpError, setOtpError] = useState('');
   const [checkingProfile, setCheckingProfile] = useState(false);
@@ -24,7 +30,8 @@ const OtpVerifyScreen = ({navigation}) => {
   useEffect(() => {
     // Focus first input on mount
     setTimeout(() => inputRefs.current[0]?.focus(), 300);
-  }, []);
+    dispatch(clearError());
+  }, [dispatch]);
 
   const shakeInputs = () => {
     Animated.sequence([
@@ -56,18 +63,13 @@ const OtpVerifyScreen = ({navigation}) => {
     }
   };
 
-  const checkExistingProfile = async token => {
+  const checkExistingProfile = async () => {
     setCheckingProfile(true);
     try {
-      const response = await getPlayer();
-      if (
-        response &&
-        response.data &&
-        response.status !== 'failed' &&
-        response.data.player_data
-      ) {
+      const playerData = await getPlayer();
+      if (playerData) {
         // Existing profile found
-        dispatch(setFormData(response.data.player_data));
+        dispatch(setFormData(playerData));
         setCheckingProfile(false);
         navigation.reset({
           index: 0,
@@ -106,15 +108,20 @@ const OtpVerifyScreen = ({navigation}) => {
     setOtpError('');
 
     try {
-      const response = await verifyOtp(phone, otpString);
+      const response = await verifyOtp(phone, otpString, otpSessionId);
       const token =
-        response?.data?.token || response?.token || response?.data?.jwt;
+        response?.data?.[0]?.token ||
+        response?.data?.[0]?.jwt ||
+        response?.data?.token ||
+        response?.data?.jwt ||
+        response?.token ||
+        response?.jwt;
 
       if (token) {
         dispatch(setToken(token));
         dispatch(setLoading(false));
         // Check for existing profile
-        await checkExistingProfile(token);
+        await checkExistingProfile();
       } else {
         dispatch(setLoading(false));
         setOtpError('Invalid response. Please try again.');
@@ -130,10 +137,24 @@ const OtpVerifyScreen = ({navigation}) => {
   };
 
   const handleResendOtp = () => {
+    dispatch(setLoading(true));
     setOtp(Array(OTP_LENGTH).fill(''));
     setOtpError('');
-    Alert.alert('OTP Resent', 'A new OTP has been sent to your phone number.');
-    setTimeout(() => inputRefs.current[0]?.focus(), 300);
+
+    sendOtp(phone)
+      .then(response => {
+        const sessionId = response?.data?.[0]?.sessionId ?? null;
+        dispatch(setOtpSessionId(sessionId));
+        dispatch(setLoading(false));
+        Alert.alert('OTP Resent', 'A new OTP has been sent to your phone number.');
+        setTimeout(() => inputRefs.current[0]?.focus(), 300);
+      })
+      .catch(err => {
+        dispatch(setLoading(false));
+        const message = err?.message || 'Failed to resend OTP. Please try again.';
+        setOtpError(message);
+        dispatch(setError(message));
+      });
   };
 
   const otpString = otp.join('');

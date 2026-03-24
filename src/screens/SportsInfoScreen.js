@@ -34,11 +34,9 @@ const SportsInfoScreen = ({navigation}) => {
     setLoadingSports(true);
     try {
       const response = await getSports();
-      if (response?.data && Array.isArray(response.data)) {
-        setSports(response.data);
-      }
+      setSports(Array.isArray(response) ? response : []);
     } catch (err) {
-      Alert.alert('Error', 'Failed to load sports. Please try again.');
+      Alert.alert('Error', err?.message || 'Failed to load sports. Please try again.');
     } finally {
       setLoadingSports(false);
     }

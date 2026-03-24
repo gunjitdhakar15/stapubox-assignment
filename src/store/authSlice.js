@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   phone: '',
+  otpSessionId: null,
   token: null,
   isAuthenticated: false,
   loading: false,
@@ -14,6 +15,9 @@ const authSlice = createSlice({
   reducers: {
     setPhone: (state, action) => {
       state.phone = action.payload;
+    },
+    setOtpSessionId: (state, action) => {
+      state.otpSessionId = action.payload;
     },
     setToken: (state, action) => {
       state.token = action.payload;
@@ -34,6 +38,13 @@ const authSlice = createSlice({
   },
 });
 
-export const {setPhone, setToken, setLoading, setError, clearError, logout} =
-  authSlice.actions;
+export const {
+  setPhone,
+  setOtpSessionId,
+  setToken,
+  setLoading,
+  setError,
+  clearError,
+  logout,
+} = authSlice.actions;
 export default authSlice.reducer;
