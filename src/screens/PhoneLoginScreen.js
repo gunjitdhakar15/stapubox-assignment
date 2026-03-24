@@ -5,7 +5,7 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
-import {Colors, Typography, Spacing} from '../theme';
+import {Colors, Typography} from '../theme';
 import {
   setPhone,
   setOtpSessionId,
@@ -118,33 +118,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingTop: 60,
+    paddingTop: 118,
   },
   topSection: {
-    flex: 1,
+    alignItems: 'center',
   },
   bottomSection: {
-    paddingBottom: Spacing.xxl,
+    paddingBottom: 12,
   },
   title: {
     ...Typography.h2,
     color: Colors.textPrimary,
-    marginBottom: Spacing.sm,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   subtitle: {
     ...Typography.caption,
     color: Colors.textSecondary,
-    marginBottom: Spacing.xxxl,
+    marginBottom: 18,
+    textAlign: 'center',
   },
   phoneContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    width: '100%',
+    marginBottom: 12,
   },
   countryCode: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 48,
-    paddingRight: Spacing.md,
+    height: 40,
+    paddingRight: 8,
   },
   countryCodeText: {
     ...Typography.body,
@@ -152,9 +156,9 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: 1,
-    height: 20,
+    height: 18,
     backgroundColor: Colors.border,
-    marginLeft: Spacing.md,
+    marginLeft: 8,
   },
   phoneInputWrapper: {
     flex: 1,
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   sendButton: {
-    marginBottom: Spacing.xl,
+    marginBottom: 10,
   },
   footer: {
     flexDirection: 'row',

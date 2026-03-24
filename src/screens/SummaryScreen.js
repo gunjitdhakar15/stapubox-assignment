@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Button from '../components/Button';
-import {Colors, Typography, Spacing, BorderRadius} from '../theme';
+import {Colors, Typography, Spacing} from '../theme';
 import {logout} from '../store/authSlice';
 import {clearForm} from '../store/formSlice';
 
@@ -73,25 +73,15 @@ const SummaryScreen = ({navigation}) => {
       rightActionLabel="Logout"
       scrollable>
       <View style={styles.container}>
-        <View style={styles.summaryCard}>
+        <View style={styles.summaryContent}>
           <SummaryRow label="Name" value={formData.name} />
-          <View style={styles.separator} />
-
           <SummaryRow label="Address" value={getAddress()} />
-          <View style={styles.separator} />
-
           <SummaryRow label="Pin Code" value={formData.address?.pincode} />
-          <View style={styles.separator} />
-
           <SummaryRow
             label="Playing Status"
             value={getPlayingStatusDisplay()}
           />
-          <View style={styles.separator} />
-
           <SummaryRow label="Sport you like" value={getSportDisplay()} />
-          <View style={styles.separator} />
-
           <SummaryRow label="Feedback" value={formData.feedback} />
         </View>
 
@@ -111,31 +101,23 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Spacing.xl,
   },
-  summaryCard: {
-    backgroundColor: Colors.surface,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.xl,
+  summaryContent: {
     marginBottom: Spacing.xxl,
   },
   row: {
-    paddingVertical: Spacing.md,
+    marginBottom: 18,
   },
   rowLabel: {
     ...Typography.labelSmall,
-    color: Colors.textTertiary,
-    marginBottom: Spacing.xs,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    color: Colors.textSecondary,
+    marginBottom: 4,
   },
   rowValue: {
     ...Typography.body,
     color: Colors.textPrimary,
   },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.divider,
-  },
   editButton: {
+    marginTop: 12,
     marginBottom: Spacing.lg,
   },
 });

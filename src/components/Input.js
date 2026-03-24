@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import {Colors, Typography, BorderRadius, Spacing} from '../theme';
+import {Colors, Typography, Spacing} from '../theme';
 
 const Input = ({
   label,
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   label: {
-    ...Typography.label,
-    marginBottom: Spacing.sm,
+    ...Typography.labelSmall,
+    marginBottom: 6,
     color: Colors.textSecondary,
   },
   required: {
@@ -104,22 +104,23 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     borderWidth: 1,
-    borderRadius: BorderRadius.md,
+    borderRadius: 4,
     backgroundColor: Colors.inputBackground,
   },
   multilineWrapper: {
-    minHeight: 120,
+    minHeight: 112,
   },
   input: {
-    ...Typography.body,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.textPrimary,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    height: 48,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
+    height: 40,
   },
   multilineInput: {
     height: undefined,
-    minHeight: 120,
+    minHeight: 112,
     textAlignVertical: 'top',
     paddingTop: Spacing.md,
   },

@@ -35,3 +35,27 @@
   - saved profile -> `Summary`
   - no saved profile -> `BasicInfo`
 - Confirm final profile submit persists and returns on re-login.
+
+## 2026-03-25
+
+### UI Polish Pass
+- Compared the shipped UI against the shared Figma screenshots and focused on the highest-visibility mismatches instead of doing a full redesign.
+
+### Visual Changes Made
+- Tightened global spacing, typography, input density, dropdown density, and button sizing to move closer to the compact Figma layout.
+- Refined the shared header layout so titles sit smaller and the right-side logout action has enough space.
+- Reworked the login screen spacing and alignment to better match the centered Figma composition.
+- Restyled OTP inputs from underlined fields to smaller bordered boxes, closer to the Figma frames.
+- Added a feedback character counter and aligned the feedback field styling more closely to the design.
+- Simplified the summary screen from a card-heavy layout to a flatter stacked-detail layout, which is closer to the Figma summary screen.
+
+### Files Updated In This Pass
+- `src/theme/index.js`
+- `src/components/ScreenWrapper.js`
+- `src/components/Input.js`
+- `src/components/Button.js`
+- `src/components/Dropdown.js`
+- `src/screens/PhoneLoginScreen.js`
+- `src/screens/OtpVerifyScreen.js`
+- `src/screens/FeedbackScreen.js`
+- `src/screens/SummaryScreen.js`

@@ -125,28 +125,29 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   label: {
-    ...Typography.label,
-    marginBottom: Spacing.sm,
+    ...Typography.labelSmall,
+    marginBottom: 6,
     color: Colors.textSecondary,
   },
   required: {
     color: Colors.error,
   },
   selector: {
-    height: 48,
+    height: 40,
     borderWidth: 1,
     borderColor: Colors.inputBorder,
-    borderRadius: BorderRadius.md,
+    borderRadius: 4,
     backgroundColor: Colors.inputBackground,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: 12,
   },
   selectorError: {
     borderColor: Colors.error,
   },
   selectorText: {
-    ...Typography.body,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.textPrimary,
     flex: 1,
   },
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   },
   chevron: {
     color: Colors.textSecondary,
-    fontSize: 10,
+    fontSize: 9,
     marginLeft: Spacing.sm,
   },
   error: {
