@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Animated,
 } from 'react-native';
-import {Colors, Spacing} from '../theme';
+import {Colors, Typography, BorderRadius, Spacing} from '../theme';
 
 const Button = ({
   title,
@@ -93,11 +93,11 @@ const Button = ({
 
 const styles = StyleSheet.create({
   button: {
-    height: 42,
-    borderRadius: 6,
+    height: 52,
+    borderRadius: BorderRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: Spacing.xl,
   },
   primaryButton: {
     backgroundColor: Colors.primary,
@@ -116,9 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.buttonDisabled,
   },
   buttonText: {
-    fontSize: 13,
-    fontWeight: '600',
-    lineHeight: 18,
+    ...Typography.button,
   },
   primaryText: {
     color: Colors.textPrimary,
@@ -128,7 +126,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: Colors.primary,
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: '500',
   },
   disabledText: {

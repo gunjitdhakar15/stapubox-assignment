@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import {Colors, Spacing} from '../theme';
+import {Colors, Spacing, Typography} from '../theme';
 
 const ScreenWrapper = ({
   children,
@@ -88,12 +88,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.screenPadding,
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.md,
-    minHeight: 52,
+    paddingVertical: Spacing.md,
+    height: 56,
   },
   headerLeft: {
-    width: 44,
+    width: 48,
     alignItems: 'flex-start',
   },
   headerCenter: {
@@ -101,42 +100,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerRight: {
-    width: 72,
+    width: 60,
     alignItems: 'flex-end',
   },
   headerTitle: {
-    fontSize: 12,
-    fontWeight: '500',
-    lineHeight: 16,
+    ...Typography.bodySemiBold,
     color: Colors.textPrimary,
   },
   backButton: {
-    width: 28,
-    height: 28,
+    width: 36,
+    height: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 14,
-    backgroundColor: Colors.surface,
   },
   backIcon: {
     color: Colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '400',
-    lineHeight: 22,
+    fontSize: 32,
+    fontWeight: '300',
+    lineHeight: 36,
   },
   rightButton: {
-    paddingHorizontal: Spacing.xs,
+    paddingHorizontal: Spacing.sm,
     paddingVertical: Spacing.xs,
   },
   rightButtonText: {
-    fontSize: 12,
-    lineHeight: 16,
+    ...Typography.label,
     color: Colors.error,
     fontWeight: '600',
   },
   content: {
     paddingHorizontal: Spacing.screenPadding,
-    paddingBottom: 28,
+    paddingBottom: Spacing.xxxl,
   },
 });
 

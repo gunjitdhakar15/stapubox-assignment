@@ -248,33 +248,30 @@ const styles = StyleSheet.create({
   subtitle: {
     ...Typography.caption,
     color: Colors.textSecondary,
-    marginBottom: 18,
+    marginBottom: Spacing.xxxl,
   },
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    gap: 8,
-    marginBottom: 10,
+    gap: 12,
+    marginBottom: Spacing.lg,
   },
   otpBox: {
-    width: 28,
-    height: 28,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 4,
+    width: 48,
+    height: 48,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
   otpBoxFilled: {
-    borderColor: Colors.primary,
+    borderBottomColor: Colors.primary,
   },
   otpBoxError: {
-    borderColor: Colors.error,
+    borderBottomColor: Colors.error,
   },
   otpInput: {
-    fontSize: 12,
-    fontWeight: '500',
-    lineHeight: 16,
+    ...Typography.h2,
     color: Colors.textPrimary,
     textAlign: 'center',
     width: '100%',
@@ -283,12 +280,12 @@ const styles = StyleSheet.create({
   errorText: {
     ...Typography.labelSmall,
     color: Colors.error,
-    marginBottom: 4,
+    marginBottom: Spacing.lg,
   },
   resendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 0,
+    marginTop: Spacing.sm,
   },
   resendText: {
     ...Typography.caption,

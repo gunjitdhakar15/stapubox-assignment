@@ -14,7 +14,6 @@ const FeedbackScreen = ({navigation}) => {
   const formData = useSelector(state => state.form);
   const [feedback, setFeedback] = useState(formData.feedback || '');
   const [submitting, setSubmitting] = useState(false);
-  const feedbackCount = feedback.length;
 
   const handleSubmit = async () => {
     // Save feedback to Redux
@@ -66,13 +65,11 @@ const FeedbackScreen = ({navigation}) => {
           <Input
             value={feedback}
             onChangeText={setFeedback}
-            placeholder="Write your suggestion"
+            placeholder="Enter your feedback here..."
             multiline
             numberOfLines={6}
-            maxLength={1000}
             style={styles.feedbackInput}
           />
-          <Text style={styles.feedbackCount}>{feedbackCount}/1000</Text>
         </View>
 
         <Button
@@ -95,17 +92,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   label: {
-    ...Typography.labelSmall,
+    ...Typography.label,
     color: Colors.textSecondary,
-    marginBottom: 6,
+    marginBottom: Spacing.sm,
   },
   feedbackInput: {
-    marginBottom: 6,
-  },
-  feedbackCount: {
-    ...Typography.labelSmall,
-    color: Colors.textTertiary,
-    textAlign: 'right',
+    marginBottom: 0,
   },
   submitButton: {
     marginTop: Spacing.xxl,

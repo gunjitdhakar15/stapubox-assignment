@@ -1,10 +1,10 @@
 // Design tokens from Figma
 export const Colors = {
   // Backgrounds
-  background: '#2C2C2C',
-  surface: '#242424',
-  surfaceLight: '#2F2F2F',
-  card: '#232323',
+  background: '#121212',
+  surface: '#1E1E1E',
+  surfaceLight: '#2A2A2A',
+  card: '#1C1C1E',
 
   // Primary
   primary: '#008DFF',
@@ -13,9 +13,9 @@ export const Colors = {
 
   // Text
   textPrimary: '#FFFFFF',
-  textSecondary: '#B4B4B8',
-  textTertiary: '#8A8A8E',
-  textPlaceholder: '#76767A',
+  textSecondary: '#8E8E93',
+  textTertiary: '#6C6C70',
+  textPlaceholder: '#636366',
 
   // Functional
   error: '#FF3B30',
@@ -23,13 +23,13 @@ export const Colors = {
   warning: '#FF9500',
 
   // Borders & Dividers
-  border: '#5A5A5A',
-  borderLight: '#6A6A6A',
-  divider: '#3B3B3D',
+  border: '#3A3A3C',
+  borderLight: '#48484A',
+  divider: '#2C2C2E',
 
   // Input
-  inputBackground: '#2A2A2A',
-  inputBorder: '#606060',
+  inputBackground: '#1C1C1E',
+  inputBorder: '#3A3A3C',
   inputBorderFocused: '#008DFF',
 
   // Button
@@ -49,9 +49,9 @@ export const Typography = {
     color: Colors.textPrimary,
   },
   h2: {
-    fontSize: 17,
+    fontSize: 24,
     fontWeight: '700',
-    lineHeight: 22,
+    lineHeight: 30,
     color: Colors.textPrimary,
   },
   h3: {
@@ -63,49 +63,49 @@ export const Typography = {
 
   // Body
   body: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '400',
-    lineHeight: 18,
+    lineHeight: 22,
     color: Colors.textPrimary,
   },
   bodyMedium: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '500',
-    lineHeight: 18,
+    lineHeight: 22,
     color: Colors.textPrimary,
   },
   bodySemiBold: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '600',
-    lineHeight: 18,
+    lineHeight: 22,
     color: Colors.textPrimary,
   },
 
   // Small
   caption: {
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '400',
-    lineHeight: 15,
+    lineHeight: 18,
     color: Colors.textSecondary,
   },
   captionMedium: {
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: '500',
-    lineHeight: 15,
+    lineHeight: 18,
     color: Colors.textSecondary,
   },
 
   // Labels
   label: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
-    lineHeight: 16,
+    lineHeight: 20,
     color: Colors.textSecondary,
   },
   labelSmall: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '400',
-    lineHeight: 14,
+    lineHeight: 16,
     color: Colors.textSecondary,
   },
 
@@ -125,7 +125,7 @@ export const Spacing = {
   xl: 20,
   xxl: 24,
   xxxl: 32,
-  screenPadding: 16,
+  screenPadding: 24,
 };
 
 export const BorderRadius = {
