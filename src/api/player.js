@@ -12,6 +12,58 @@ const looksLikePlayerData = value => {
   );
 };
 
+const tryParseJson = value => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+};
+
+const unwrapPlayerData = value => {
+  const candidate = tryParseJson(value);
+
+  if (!candidate) {
+    return null;
+  }
+
+  if (looksLikePlayerData(candidate)) {
+    return candidate;
+  }
+
+  if (Array.isArray(candidate)) {
+    for (const item of candidate) {
+      const parsed = unwrapPlayerData(item);
+      if (parsed) {
+        return parsed;
+      }
+    }
+    return null;
+  }
+
+  if (typeof candidate === 'object') {
+    if ('player_data' in candidate) {
+      const parsed = unwrapPlayerData(candidate.player_data);
+      if (parsed) {
+        return parsed;
+      }
+    }
+
+    if ('data' in candidate) {
+      const parsed = unwrapPlayerData(candidate.data);
+      if (parsed) {
+        return parsed;
+      }
+    }
+  }
+
+  return null;
+};
+
 const extractPlayerData = payload => {
   if (!payload) {
     return null;
@@ -21,23 +73,7 @@ const extractPlayerData = payload => {
     return null;
   }
 
-  if (looksLikePlayerData(payload.player_data)) {
-    return payload.player_data;
-  }
-
-  if (looksLikePlayerData(payload.data?.player_data)) {
-    return payload.data.player_data;
-  }
-
-  if (looksLikePlayerData(payload.data)) {
-    return payload.data;
-  }
-
-  if (looksLikePlayerData(payload)) {
-    return payload;
-  }
-
-  return null;
+  return unwrapPlayerData(payload);
 };
 
 /**
@@ -68,9 +104,15 @@ export const getSports = async () => {
  * Returns player_data if it exists, or null when no saved profile is found.
  * @returns {Promise} Player data object
  */
-export const getPlayer = async () => {
+export const getPlayer = async authToken => {
   try {
-    const response = await apiClient.get('/trial/player');
+    const response = await apiClient.get('/trial/player', {
+      headers: authToken
+        ? {
+            Authorization: `Bearer ${authToken}`,
+          }
+        : undefined,
+    });
     const payload = response.data;
     const playerData = extractPlayerData(payload);
 

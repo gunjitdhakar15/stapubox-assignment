@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Dropdown from '../components/Dropdown';
 import Button from '../components/Button';
-import {Spacing} from '../theme';
 import {updateSportsInfo} from '../store/formSlice';
 import {getSports} from '../api/player';
 import {validateSportsInfo} from '../utils/validation';
@@ -114,14 +113,14 @@ const SportsInfoScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Spacing.xl,
+    paddingTop: 22,
   },
   formContainer: {
     flex: 1,
   },
   nextButton: {
-    marginTop: Spacing.xxl,
-    marginBottom: Spacing.lg,
+    marginTop: 16,
+    marginBottom: 4,
   },
 });
 

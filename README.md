@@ -46,7 +46,7 @@ src/
 ├── components/
 │   ├── Input.js            # Animated text input
 │   ├── Button.js           # Primary/secondary/text button
-│   ├── Dropdown.js         # Bottom-sheet modal picker
+│   ├── Dropdown.js         # Dropdown selector
 │   ├── ScreenWrapper.js    # SafeArea + header + keyboard
 │   └── LoadingOverlay.js   # Full-screen loading
 ├── navigation/
@@ -112,7 +112,7 @@ Assessment entity reference:
 gunjit15@gmail.com
 ```
 
-Note: the app currently sends `X-Api-Token` and `Authorization` headers. The `entity` value is kept as assessment metadata and is not required as an API header in this app.
+Note: the app sends `X-Api-Token`, `Authorization`, and `entity` headers for the assessment APIs.
 
 ### API Endpoints
 | Method | Endpoint | Description |
@@ -135,7 +135,7 @@ Note: the app currently sends `X-Api-Token` and `Authorization` headers. The `en
 
 4. **Navigation Persistence**: Redux stores all form fields, so pressing Back retains entered data. Cleared only on Logout.
 
-5. **Dark Theme**: Matches Figma design with `#121212` background, `#008DFF` primary buttons, white text, and grey labels.
+5. **Dark Theme**: Uses a dark UI with blue primary actions and compact form screens aligned to the provided assessment design.
 
 6. **Animated Interactions**: Input focus border animation, button press scale effect, OTP input shake on error.
 
@@ -175,7 +175,6 @@ Note: the app currently sends `X-Api-Token` and `Authorization` headers. The `en
 
 - Push the codebase to a GitHub repository with this README.
 - Attach the release APK from `android/app/build/outputs/apk/release/app-release.apk`.
-- Include `TEST_RUNBOOK.md` and `DEMO_RUNBOOK.md` in the repo.
 - Record a demo video covering:
   - Send OTP -> Verify OTP
   - New user flow through Basic Info -> Sports Info -> Feedback -> Summary

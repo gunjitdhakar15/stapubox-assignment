@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import {Spacing} from '../theme';
+import {Colors, Typography} from '../theme';
 import {updateBasicInfo} from '../store/formSlice';
 import {validateBasicInfo} from '../utils/validation';
 
@@ -61,23 +61,25 @@ const BasicInfoScreen = ({navigation}) => {
             error={errors.name}
           />
 
+          <Text style={styles.groupLabel}>
+            Address<Text style={styles.required}>*</Text>
+          </Text>
           <Input
-            label="Address Line 1"
-            required
             value={line1}
             onChangeText={text => {
               setLine1(text);
               clearFieldError('line1');
             }}
-            placeholder="Enter address line 1"
+            placeholder="Address Line 1"
             error={errors.line1}
+            style={styles.addressInput}
           />
 
           <Input
-            label="Address Line 2"
             value={line2}
             onChangeText={setLine2}
-            placeholder="(Optional)"
+            placeholder="Address Line 2 (Optional)"
+            style={styles.addressLineTwo}
           />
 
           <Input
@@ -108,14 +110,28 @@ const BasicInfoScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Spacing.xl,
+    paddingTop: 22,
   },
   formContainer: {
     flex: 1,
   },
+  groupLabel: {
+    ...Typography.label,
+    color: Colors.textPrimary,
+    marginBottom: 8,
+  },
+  required: {
+    color: Colors.error,
+  },
+  addressInput: {
+    marginBottom: 4,
+  },
+  addressLineTwo: {
+    marginBottom: 18,
+  },
   nextButton: {
-    marginTop: Spacing.xxl,
-    marginBottom: Spacing.lg,
+    marginTop: 16,
+    marginBottom: 4,
   },
 });
 

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import {Colors, Typography, BorderRadius, Spacing} from '../theme';
+import {Colors, Typography, Spacing} from '../theme';
 
 const Input = ({
   label,
@@ -23,6 +23,7 @@ const Input = ({
   style,
   inputStyle,
   autoCapitalize = 'sentences',
+  textAlignVertical,
 }) => {
   const borderAnim = React.useRef(new Animated.Value(0)).current;
 
@@ -77,6 +78,7 @@ const Input = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           autoCapitalize={autoCapitalize}
+          textAlignVertical={textAlignVertical}
           style={[
             styles.input,
             multiline && styles.multilineInput,
@@ -96,32 +98,32 @@ const styles = StyleSheet.create({
   },
   label: {
     ...Typography.label,
-    marginBottom: Spacing.sm,
-    color: Colors.textSecondary,
+    marginBottom: 8,
+    color: Colors.textPrimary,
   },
   required: {
     color: Colors.error,
   },
   inputWrapper: {
     borderWidth: 1,
-    borderRadius: BorderRadius.md,
+    borderRadius: 6,
     backgroundColor: Colors.inputBackground,
   },
   multilineWrapper: {
-    minHeight: 120,
+    minHeight: 136,
   },
   input: {
     ...Typography.body,
     color: Colors.textPrimary,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    height: 48,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    height: 36,
   },
   multilineInput: {
     height: undefined,
-    minHeight: 120,
+    minHeight: 136,
     textAlignVertical: 'top',
-    paddingTop: Spacing.md,
+    paddingTop: 10,
   },
   disabled: {
     opacity: 0.6,

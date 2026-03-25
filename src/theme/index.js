@@ -1,10 +1,10 @@
 // Design tokens from Figma
 export const Colors = {
   // Backgrounds
-  background: '#121212',
-  surface: '#1E1E1E',
-  surfaceLight: '#2A2A2A',
-  card: '#1C1C1E',
+  background: '#2f2f2f',
+  surface: '#3a3a3a',
+  surfaceLight: '#f5f5f5',
+  card: '#353535',
 
   // Primary
   primary: '#008DFF',
@@ -13,9 +13,9 @@ export const Colors = {
 
   // Text
   textPrimary: '#FFFFFF',
-  textSecondary: '#8E8E93',
-  textTertiary: '#6C6C70',
-  textPlaceholder: '#636366',
+  textSecondary: '#f1f1f1',
+  textTertiary: '#b8b8b8',
+  textPlaceholder: '#7f7f7f',
 
   // Functional
   error: '#FF3B30',
@@ -23,18 +23,18 @@ export const Colors = {
   warning: '#FF9500',
 
   // Borders & Dividers
-  border: '#3A3A3C',
-  borderLight: '#48484A',
-  divider: '#2C2C2E',
+  border: '#7a7a7a',
+  borderLight: '#9a9a9a',
+  divider: '#4f4f4f',
 
   // Input
-  inputBackground: '#1C1C1E',
-  inputBorder: '#3A3A3C',
+  inputBackground: '#2f2f2f',
+  inputBorder: '#7a7a7a',
   inputBorderFocused: '#008DFF',
 
   // Button
-  buttonDisabled: '#2A2A2A',
-  buttonDisabledText: '#636366',
+  buttonDisabled: '#3b3b3b',
+  buttonDisabledText: '#6f6f6f',
 
   // Overlay
   overlay: 'rgba(0, 0, 0, 0.5)',
@@ -49,9 +49,9 @@ export const Typography = {
     color: Colors.textPrimary,
   },
   h2: {
-    fontSize: 24,
+    fontSize: 17,
     fontWeight: '700',
-    lineHeight: 30,
+    lineHeight: 22,
     color: Colors.textPrimary,
   },
   h3: {
@@ -63,57 +63,57 @@ export const Typography = {
 
   // Body
   body: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '400',
-    lineHeight: 22,
+    lineHeight: 18,
     color: Colors.textPrimary,
   },
   bodyMedium: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '500',
-    lineHeight: 22,
+    lineHeight: 18,
     color: Colors.textPrimary,
   },
   bodySemiBold: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '600',
-    lineHeight: 22,
+    lineHeight: 18,
     color: Colors.textPrimary,
   },
 
   // Small
   caption: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: '400',
-    lineHeight: 18,
+    lineHeight: 16,
     color: Colors.textSecondary,
   },
   captionMedium: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: '500',
-    lineHeight: 18,
+    lineHeight: 16,
     color: Colors.textSecondary,
   },
 
   // Labels
   label: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '500',
-    lineHeight: 20,
-    color: Colors.textSecondary,
+    lineHeight: 16,
+    color: Colors.textPrimary,
   },
   labelSmall: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '400',
-    lineHeight: 16,
-    color: Colors.textSecondary,
+    lineHeight: 14,
+    color: Colors.textPrimary,
   },
 
   // Button
   button: {
-    fontSize: 17,
+    fontSize: 13,
     fontWeight: '600',
-    lineHeight: 22,
+    lineHeight: 18,
   },
 };
 
@@ -125,12 +125,12 @@ export const Spacing = {
   xl: 20,
   xxl: 24,
   xxxl: 32,
-  screenPadding: 24,
+  screenPadding: 20,
 };
 
 export const BorderRadius = {
   sm: 6,
-  md: 8,
+  md: 6,
   lg: 12,
   xl: 16,
   round: 100,

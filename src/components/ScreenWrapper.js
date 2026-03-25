@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import {Colors, Spacing, Typography} from '../theme';
+import {Colors, Spacing} from '../theme';
 
 const ScreenWrapper = ({
   children,
@@ -22,6 +22,7 @@ const ScreenWrapper = ({
   rightActionLabel,
   style,
   contentStyle,
+  contentContainerFlex = false,
 }) => {
   const Content = scrollable ? ScrollView : View;
 
@@ -66,7 +67,11 @@ const ScreenWrapper = ({
         {/* Content */}
         <Content
           style={[styles.flex, style]}
-          contentContainerStyle={[styles.content, contentStyle]}
+          contentContainerStyle={[
+            styles.content,
+            contentContainerFlex && styles.contentFlex,
+            contentStyle,
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
           {children}
@@ -88,11 +93,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.screenPadding,
-    paddingVertical: Spacing.md,
-    height: 56,
+    paddingTop: 8,
+    paddingBottom: 8,
+    minHeight: 46,
   },
   headerLeft: {
-    width: 48,
+    width: 34,
     alignItems: 'flex-start',
   },
   headerCenter: {
@@ -100,37 +106,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerRight: {
-    width: 60,
+    width: 52,
     alignItems: 'flex-end',
   },
   headerTitle: {
-    ...Typography.bodySemiBold,
+    fontSize: 11,
+    fontWeight: '500',
+    lineHeight: 16,
     color: Colors.textPrimary,
   },
   backButton: {
-    width: 36,
-    height: 36,
+    width: 24,
+    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#4a4a4a',
+    borderRadius: 12,
   },
   backIcon: {
     color: Colors.textPrimary,
-    fontSize: 32,
-    fontWeight: '300',
-    lineHeight: 36,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 18,
   },
   rightButton: {
     paddingHorizontal: Spacing.sm,
     paddingVertical: Spacing.xs,
   },
   rightButtonText: {
-    ...Typography.label,
+    fontSize: 10,
+    lineHeight: 14,
     color: Colors.error,
     fontWeight: '600',
   },
   content: {
     paddingHorizontal: Spacing.screenPadding,
-    paddingBottom: Spacing.xxxl,
+    paddingBottom: 24,
+  },
+  contentFlex: {
+    flexGrow: 1,
   },
 });
 

@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
-import {Colors, Typography, Spacing} from '../theme';
+import {Colors} from '../theme';
 import {
   setToken,
   setOtpSessionId,
@@ -63,10 +63,10 @@ const OtpVerifyScreen = ({navigation}) => {
     }
   };
 
-  const checkExistingProfile = async () => {
+  const checkExistingProfile = async authToken => {
     setCheckingProfile(true);
     try {
-      const playerData = await getPlayer();
+      const playerData = await getPlayer(authToken);
       if (playerData) {
         // Existing profile found
         dispatch(setFormData(playerData));
@@ -85,13 +85,24 @@ const OtpVerifyScreen = ({navigation}) => {
         });
       }
     } catch (err) {
-      // 404 or error means no profile
+      const isMissingProfile =
+        err?.status === 404 || err?.data?.err === 'NOT FOUND';
+
       dispatch(setHasExistingProfile(false));
       setCheckingProfile(false);
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'BasicInfo'}],
-      });
+
+      if (isMissingProfile) {
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'BasicInfo'}],
+        });
+        return;
+      }
+
+      Alert.alert(
+        'Profile Load Error',
+        err?.message || 'Unable to fetch saved profile. Please try again.',
+      );
     }
   };
 
@@ -121,7 +132,7 @@ const OtpVerifyScreen = ({navigation}) => {
         dispatch(setToken(token));
         dispatch(setLoading(false));
         // Check for existing profile
-        await checkExistingProfile();
+        await checkExistingProfile(token);
       } else {
         dispatch(setLoading(false));
         setOtpError('Invalid response. Please try again.');
@@ -129,7 +140,10 @@ const OtpVerifyScreen = ({navigation}) => {
       }
     } catch (err) {
       dispatch(setLoading(false));
-      const message = err?.message || 'Wrong OTP entered';
+      const message =
+        err?.message === 'Invalid OTP or expired'
+          ? 'Wrong OTP Entered'
+          : err?.message || 'Wrong OTP Entered';
       setOtpError(message);
       dispatch(setError(message));
       shakeInputs();
@@ -164,7 +178,8 @@ const OtpVerifyScreen = ({navigation}) => {
       title="Phone Verification"
       showBack
       onBack={() => navigation.goBack()}
-      scrollable={false}>
+      scrollable={false}
+      contentContainerFlex>
       <LoadingOverlay
         visible={loading || checkingProfile}
         message={checkingProfile ? 'Checking profile...' : 'Verifying OTP...'}
@@ -210,7 +225,6 @@ const OtpVerifyScreen = ({navigation}) => {
 
           {/* Resend */}
           <View style={styles.resendContainer}>
-            <Text style={styles.resendText}>Didn't receive OTP? </Text>
             <Button
               title="Resend OTP"
               variant="text"
@@ -236,64 +250,74 @@ const OtpVerifyScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: Spacing.xl,
+    paddingTop: 18,
   },
   topSection: {
     flex: 1,
+    alignItems: 'center',
   },
   bottomSection: {
-    paddingBottom: Spacing.xxl,
+    paddingBottom: 8,
+    width: '100%',
+    maxWidth: 286,
+    alignSelf: 'center',
   },
   subtitle: {
-    ...Typography.caption,
-    color: Colors.textSecondary,
-    marginBottom: Spacing.xxxl,
+    fontSize: 17,
+    fontWeight: '600',
+    lineHeight: 24,
+    color: Colors.textPrimary,
+    marginBottom: 30,
+    maxWidth: 250,
+    textAlign: 'center',
   },
   otpContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gap: 12,
-    marginBottom: Spacing.lg,
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 14,
+    alignSelf: 'center',
   },
   otpBox: {
-    width: 48,
-    height: 48,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.border,
+    width: 38,
+    height: 38,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
   },
   otpBoxFilled: {
-    borderBottomColor: Colors.primary,
+    borderColor: Colors.textPrimary,
   },
   otpBoxError: {
-    borderBottomColor: Colors.error,
+    borderColor: Colors.textPrimary,
   },
   otpInput: {
-    ...Typography.h2,
+    fontSize: 14,
+    fontWeight: '500',
+    lineHeight: 18,
     color: Colors.textPrimary,
     textAlign: 'center',
     width: '100%',
     height: '100%',
   },
   errorText: {
-    ...Typography.labelSmall,
+    fontSize: 10,
+    lineHeight: 14,
     color: Colors.error,
-    marginBottom: Spacing.lg,
+    marginBottom: 4,
+    textAlign: 'center',
   },
   resendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: Spacing.sm,
-  },
-  resendText: {
-    ...Typography.caption,
-    color: Colors.textSecondary,
+    justifyContent: 'center',
+    marginTop: 0,
   },
   resendLink: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 10,
+    fontWeight: '500',
   },
 });
 

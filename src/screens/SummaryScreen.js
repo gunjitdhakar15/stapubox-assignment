@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Button from '../components/Button';
-import {Colors, Typography, Spacing, BorderRadius} from '../theme';
+import {Colors, Typography} from '../theme';
 import {logout} from '../store/authSlice';
 import {clearForm} from '../store/formSlice';
 
@@ -73,27 +73,15 @@ const SummaryScreen = ({navigation}) => {
       rightActionLabel="Logout"
       scrollable>
       <View style={styles.container}>
-        <View style={styles.summaryCard}>
-          <SummaryRow label="Name" value={formData.name} />
-          <View style={styles.separator} />
-
-          <SummaryRow label="Address" value={getAddress()} />
-          <View style={styles.separator} />
-
-          <SummaryRow label="Pin Code" value={formData.address?.pincode} />
-          <View style={styles.separator} />
-
-          <SummaryRow
-            label="Playing Status"
-            value={getPlayingStatusDisplay()}
-          />
-          <View style={styles.separator} />
-
-          <SummaryRow label="Sport you like" value={getSportDisplay()} />
-          <View style={styles.separator} />
-
-          <SummaryRow label="Feedback" value={formData.feedback} />
-        </View>
+        <SummaryRow label="Name" value={formData.name} />
+        <SummaryRow label="Address" value={getAddress()} />
+        <SummaryRow label="Pin Code" value={formData.address?.pincode} />
+        <SummaryRow
+          label="Playing Status"
+          value={getPlayingStatusDisplay()}
+        />
+        <SummaryRow label="Sport you like" value={getSportDisplay()} />
+        <SummaryRow label="Feedback" value={formData.feedback} />
 
         <Button
           title="Edit"
@@ -109,34 +97,22 @@ const SummaryScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Spacing.xl,
-  },
-  summaryCard: {
-    backgroundColor: Colors.surface,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.xl,
-    marginBottom: Spacing.xxl,
+    paddingTop: 34,
   },
   row: {
-    paddingVertical: Spacing.md,
+    marginBottom: 20,
   },
   rowLabel: {
-    ...Typography.labelSmall,
-    color: Colors.textTertiary,
-    marginBottom: Spacing.xs,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    ...Typography.label,
+    marginBottom: 6,
   },
   rowValue: {
     ...Typography.body,
     color: Colors.textPrimary,
   },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.divider,
-  },
   editButton: {
-    marginBottom: Spacing.lg,
+    marginTop: 10,
+    marginBottom: 6,
   },
 });
 

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
-import {Colors, Typography, Spacing} from '../theme';
+import {Colors, Typography} from '../theme';
 import {
   setPhone,
   setOtpSessionId,
@@ -54,23 +54,18 @@ const PhoneLoginScreen = ({navigation}) => {
   };
 
   return (
-    <ScreenWrapper scrollable={false}>
+    <ScreenWrapper scrollable={false} contentContainerFlex>
       <LoadingOverlay visible={loading} message="Sending OTP..." />
 
       <View style={styles.container}>
         <View style={styles.topSection}>
-          {/* Title */}
           <Text style={styles.title}>Login to Your Account</Text>
-          <Text style={styles.subtitle}>
-            Enter your mobile number to login
-          </Text>
 
-          {/* Phone Input */}
           <View style={styles.phoneContainer}>
-            <View style={styles.countryCode}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.countryCode}>
               <Text style={styles.countryCodeText}>+91</Text>
-              <View style={styles.divider} />
-            </View>
+              <Text style={styles.countryArrow}>▼</Text>
+            </TouchableOpacity>
             <View style={styles.phoneInputWrapper}>
               <Input
                 value={phoneInput}
@@ -83,6 +78,7 @@ const PhoneLoginScreen = ({navigation}) => {
                 maxLength={10}
                 error={phoneError || (error ? error : '')}
                 style={styles.phoneInput}
+                autoCapitalize="none"
               />
             </View>
           </View>
@@ -117,44 +113,49 @@ const PhoneLoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: 60,
+    paddingTop: 172,
   },
   topSection: {
-    flex: 1,
+    alignItems: 'center',
   },
   bottomSection: {
-    paddingBottom: Spacing.xxl,
+    marginTop: 18,
+    width: '100%',
+    maxWidth: 286,
+    alignSelf: 'center',
   },
   title: {
     ...Typography.h2,
     color: Colors.textPrimary,
-    marginBottom: Spacing.sm,
-  },
-  subtitle: {
-    ...Typography.caption,
-    color: Colors.textSecondary,
-    marginBottom: Spacing.xxxl,
+    marginBottom: 18,
+    textAlign: 'center',
   },
   phoneContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    width: '100%',
+    maxWidth: 286,
+    alignSelf: 'center',
   },
   countryCode: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 48,
-    paddingRight: Spacing.md,
+    justifyContent: 'space-between',
+    width: 52,
+    height: 40,
+    borderWidth: 1,
+    borderColor: Colors.inputBorder,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    marginRight: 10,
   },
   countryCodeText: {
     ...Typography.body,
-    color: Colors.textSecondary,
+    color: Colors.textPrimary,
   },
-  divider: {
-    width: 1,
-    height: 20,
-    backgroundColor: Colors.border,
-    marginLeft: Spacing.md,
+  countryArrow: {
+    color: Colors.textPrimary,
+    fontSize: 8,
   },
   phoneInputWrapper: {
     flex: 1,
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   sendButton: {
-    marginBottom: Spacing.xl,
+    marginBottom: 14,
   },
   footer: {
     flexDirection: 'row',
@@ -172,11 +173,11 @@ const styles = StyleSheet.create({
   },
   footerText: {
     ...Typography.caption,
-    color: Colors.textSecondary,
+    color: Colors.textPrimary,
   },
   createAccountText: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 10,
+    fontWeight: '500',
   },
 });
 

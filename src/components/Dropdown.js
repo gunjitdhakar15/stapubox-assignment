@@ -3,12 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
-  FlatList,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
-import {Colors, Typography, BorderRadius, Spacing} from '../theme';
+import {Colors, Typography, Spacing} from '../theme';
 
 const Dropdown = ({
   label,
@@ -57,65 +54,43 @@ const Dropdown = ({
       </TouchableOpacity>
       {error && <Text style={styles.error}>{error}</Text>}
 
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}>
-        <SafeAreaView style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>
-                {label || 'Select an option'}
-              </Text>
+      {modalVisible ? (
+        <View style={styles.inlineOptions}>
+          {options.map((item, index) => {
+            const key =
+              item?.sport_id?.toString() ||
+              item?.value?.toString() ||
+              index.toString();
+            const itemLabel =
+              item?.label || item?.sport_name || item?.value || item;
+            const isSelected = displayValue === itemLabel;
+
+            return (
               <TouchableOpacity
-                onPress={() => setModalVisible(false)}
-                style={styles.closeButton}>
-                <Text style={styles.closeText}>✕</Text>
+                key={key}
+                style={[
+                  styles.option,
+                  index === options.length - 1 && styles.optionLast,
+                  isSelected && styles.selectedOption,
+                ]}
+                onPress={() =>
+                  handleSelect(typeof item === 'string' ? item : itemLabel)
+                }
+                activeOpacity={0.7}>
+                <Text
+                  style={[
+                    styles.optionText,
+                    isSelected && styles.selectedOptionText,
+                  ]}>
+                  {typeof itemLabel === 'string'
+                    ? itemLabel.charAt(0).toUpperCase() + itemLabel.slice(1)
+                    : itemLabel}
+                </Text>
               </TouchableOpacity>
-            </View>
-            <FlatList
-              data={options}
-              keyExtractor={(item, index) =>
-                item.sport_id?.toString() ||
-                item.value?.toString() ||
-                index.toString()
-              }
-              renderItem={({item}) => {
-                const itemLabel =
-                  item.label || item.sport_name || item.value || item;
-                const isSelected = displayValue === itemLabel;
-                return (
-                  <TouchableOpacity
-                    style={[
-                      styles.option,
-                      isSelected && styles.selectedOption,
-                    ]}
-                    onPress={() =>
-                      handleSelect(
-                        typeof item === 'string' ? item : itemLabel,
-                      )
-                    }
-                    activeOpacity={0.7}>
-                    <Text
-                      style={[
-                        styles.optionText,
-                        isSelected && styles.selectedOptionText,
-                      ]}>
-                      {typeof itemLabel === 'string'
-                        ? itemLabel.charAt(0).toUpperCase() + itemLabel.slice(1)
-                        : itemLabel}
-                    </Text>
-                    {isSelected && <Text style={styles.checkmark}>✓</Text>}
-                  </TouchableOpacity>
-                );
-              }}
-              style={styles.optionsList}
-              showsVerticalScrollIndicator={false}
-            />
-          </View>
-        </SafeAreaView>
-      </Modal>
+            );
+          })}
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -126,21 +101,21 @@ const styles = StyleSheet.create({
   },
   label: {
     ...Typography.label,
-    marginBottom: Spacing.sm,
-    color: Colors.textSecondary,
+    marginBottom: 8,
+    color: Colors.textPrimary,
   },
   required: {
     color: Colors.error,
   },
   selector: {
-    height: 48,
+    height: 36,
     borderWidth: 1,
     borderColor: Colors.inputBorder,
-    borderRadius: BorderRadius.md,
+    borderRadius: 6,
     backgroundColor: Colors.inputBackground,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: 12,
   },
   selectorError: {
     borderColor: Colors.error,
@@ -155,80 +130,36 @@ const styles = StyleSheet.create({
   },
   chevron: {
     color: Colors.textSecondary,
-    fontSize: 10,
-    marginLeft: Spacing.sm,
+    fontSize: 9,
+    marginLeft: 8,
   },
   error: {
     ...Typography.labelSmall,
     color: Colors.error,
     marginTop: Spacing.xs,
   },
-  // Modal styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: Colors.overlay,
-    justifyContent: 'flex-end',
-  },
-  modalContainer: {
-    backgroundColor: Colors.surface,
-    borderTopLeftRadius: BorderRadius.xl,
-    borderTopRightRadius: BorderRadius.xl,
-    maxHeight: '60%',
-    paddingBottom: Spacing.xxl,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.screenPadding,
-    paddingVertical: Spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.divider,
-  },
-  modalTitle: {
-    ...Typography.h3,
-    color: Colors.textPrimary,
-  },
-  closeButton: {
-    width: 32,
-    height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeText: {
-    color: Colors.textSecondary,
-    fontSize: 18,
-  },
-  optionsList: {
-    paddingHorizontal: Spacing.screenPadding,
+  inlineOptions: {
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    marginTop: 6,
+    overflow: 'hidden',
   },
   option: {
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
+    paddingVertical: 9,
+    paddingHorizontal: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.divider,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    borderBottomColor: '#e9e9e9',
   },
-  selectedOption: {
-    backgroundColor: Colors.surfaceLight,
-    borderRadius: BorderRadius.sm,
+  optionLast: {
+    borderBottomWidth: 0,
   },
   optionText: {
-    ...Typography.body,
-    color: Colors.textPrimary,
-    flex: 1,
+    fontSize: 11,
+    lineHeight: 14,
+    color: '#2f2f2f',
   },
   selectedOptionText: {
-    color: Colors.primary,
     fontWeight: '600',
-  },
-  checkmark: {
-    color: Colors.primary,
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: Spacing.sm,
   },
 });
 

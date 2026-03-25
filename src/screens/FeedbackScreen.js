@@ -5,7 +5,7 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LoadingOverlay from '../components/LoadingOverlay';
-import {Colors, Typography, Spacing} from '../theme';
+import {Colors, Typography} from '../theme';
 import {updateFeedback} from '../store/formSlice';
 import {savePlayer} from '../api/player';
 
@@ -14,6 +14,7 @@ const FeedbackScreen = ({navigation}) => {
   const formData = useSelector(state => state.form);
   const [feedback, setFeedback] = useState(formData.feedback || '');
   const [submitting, setSubmitting] = useState(false);
+  const feedbackCount = feedback.length;
 
   const handleSubmit = async () => {
     // Save feedback to Redux
@@ -65,11 +66,14 @@ const FeedbackScreen = ({navigation}) => {
           <Input
             value={feedback}
             onChangeText={setFeedback}
-            placeholder="Enter your feedback here..."
+            placeholder="Write your suggestion"
             multiline
             numberOfLines={6}
+            maxLength={1000}
             style={styles.feedbackInput}
+            textAlignVertical="top"
           />
+          <Text style={styles.feedbackCount}>{feedbackCount}/1000</Text>
         </View>
 
         <Button
@@ -86,22 +90,26 @@ const FeedbackScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Spacing.xl,
+    paddingTop: 22,
   },
   formContainer: {
     flex: 1,
   },
   label: {
     ...Typography.label,
-    color: Colors.textSecondary,
-    marginBottom: Spacing.sm,
+    marginBottom: 8,
   },
   feedbackInput: {
-    marginBottom: 0,
+    marginBottom: 4,
+  },
+  feedbackCount: {
+    ...Typography.labelSmall,
+    color: Colors.textPrimary,
+    textAlign: 'right',
   },
   submitButton: {
-    marginTop: Spacing.xxl,
-    marginBottom: Spacing.lg,
+    marginTop: 16,
+    marginBottom: 4,
   },
 });
 
