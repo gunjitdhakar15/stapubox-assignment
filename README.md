@@ -1,190 +1,146 @@
-# StapuboxProfile — React Native Profile Form App
+# StapuBox Assignment
 
-A React Native (CLI) mobile app implementing a **Phone OTP Login → 4-Screen Profile Form → Summary** flow with **Redux state management** and **API integration**.
+React Native mobile application for the StapuBox frontend assessment.
 
----
+The app implements:
+- OTP-based authentication
+- Multi-step profile form
+- Redux-based form persistence across navigation
+- Profile save and fetch integration with the provided APIs
+- Summary view with edit and logout actions
 
-## 📱 Screenshots Flow
+## Tech Stack
 
-| Screen | Description |
-|--------|-------------|
-| **Phone Login** | Enter phone number, send OTP |
-| **OTP Verify** | Enter 4-digit OTP, receive JWT |
-| **Basic Info** | Name, Address Line 1/2, Pin Code |
-| **Sports Info** | Playing Status dropdown + Sport dropdown (API-fetched) |
-| **Feedback** | Multi-line feedback text area |
-| **Summary** | Read-only profile display with Edit/Logout |
+- React Native 0.76
+- Redux Toolkit
+- React Navigation
+- Axios
+- Android Gradle build
 
----
+## Project Structure
 
-## 🏗️ Architecture
-
-### Tech Stack
-- **React Native 0.76** (CLI, not Expo)
-- **Redux Toolkit** — global state management
-- **React Navigation v7** — stack-based navigation
-- **Axios** — HTTP client with interceptors
-
-### Project Structure
-```
+```text
 src/
-├── api/                    # API service layer
-│   ├── client.js           # Axios instance + interceptors
-│   ├── auth.js             # sendOtp, verifyOtp
-│   └── player.js           # getSports, getPlayer, savePlayer
-├── store/
-│   ├── index.js            # configureStore
-│   ├── authSlice.js        # Auth state (phone, token)
-│   └── formSlice.js        # Form state (all profile fields)
-├── screens/
-│   ├── PhoneLoginScreen.js
-│   ├── OtpVerifyScreen.js
-│   ├── BasicInfoScreen.js
-│   ├── SportsInfoScreen.js
-│   ├── FeedbackScreen.js
-│   └── SummaryScreen.js
-├── components/
-│   ├── Input.js            # Animated text input
-│   ├── Button.js           # Primary/secondary/text button
-│   ├── Dropdown.js         # Dropdown selector
-│   ├── ScreenWrapper.js    # SafeArea + header + keyboard
-│   └── LoadingOverlay.js   # Full-screen loading
-├── navigation/
-│   └── AppNavigator.js     # Stack navigator
-├── utils/
-│   └── validation.js       # Phone, pincode, form validators
-├── theme/
-│   └── index.js            # Design tokens (colors, typography, spacing)
-└── App.js                  # Root component
+  api/
+    auth.js
+    client.js
+    player.js
+  components/
+    Button.js
+    Dropdown.js
+    Input.js
+    LoadingOverlay.js
+    ScreenWrapper.js
+  navigation/
+    AppNavigator.js
+  screens/
+    PhoneLoginScreen.js
+    OtpVerifyScreen.js
+    BasicInfoScreen.js
+    SportsInfoScreen.js
+    FeedbackScreen.js
+    SummaryScreen.js
+  store/
+    authSlice.js
+    formSlice.js
+    index.js
+  theme/
+    index.js
+  utils/
+    validation.js
+  App.js
 ```
 
----
+## Implemented Flow
 
-## 🚀 Setup & Run
+1. User enters mobile number and requests OTP
+2. User verifies OTP and receives authenticated access
+3. App checks for an existing saved profile
+4. If profile exists, app routes to Summary
+5. If profile does not exist, app starts the profile form flow
+6. User completes:
+   - Basic Info
+   - Sports Info
+   - Feedback
+7. App submits the full `player_data` payload in a single save request
+8. Summary screen shows saved information with Edit and Logout actions
 
-### Prerequisites
-- Node.js ≥ 18
+## API Integration
+
+Configured endpoints:
+
+- `POST /trial/sendOtp`
+- `POST /trial/verifyOtp`
+- `GET /sports/`
+- `GET /trial/player`
+- `POST /trial/player`
+
+Headers used by the app:
+
+- `X-Api-Token`
+- `Authorization: Bearer <jwt>`
+- `entity`
+- `Content-Type: application/json`
+
+Assessment credentials are configured in [src/api/client.js](E:\Stapubox-assessment\src\api\client.js).
+
+## Validation
+
+The app validates:
+
+- Name: required
+- Address Line 1: required
+- Pin Code: required, 6 digits
+- Sport: required
+- Address Line 2: optional
+- Playing Status: optional
+- Feedback: optional
+
+## Setup
+
+Requirements:
+
+- Node.js 18+
 - JDK 17
-- Android Studio with SDK 34
-- React Native CLI
+- Android SDK / Android Studio
+- React Native CLI environment
 
-### Install & Run
+Install dependencies:
+
 ```bash
-# Clone the repo
-git clone <repo-url>
-cd Stapubox-assessment
-
-# Install dependencies
 npm install
+```
 
-# Start Metro bundler
+Start Metro:
+
+```bash
 npx react-native start
+```
 
-# Run on Android (new terminal)
+Run on Android:
+
+```bash
 npx react-native run-android
 ```
 
-### Build APK
+## Release Build
+
+Build release APK:
+
 ```bash
 cd android
 ./gradlew assembleRelease
-
-# APK location:
-# android/app/build/outputs/apk/release/app-release.apk
 ```
 
-### Release Build Notes
-- This project uses exact React Native-adjacent dependency versions to stay compatible with `react-native@0.76.9`.
-- Android release builds are configured with `newArchEnabled=false` for a stable assessment build path.
+Generated APK:
 
----
-
-## ⚙️ Configuration
-
-### Assessment Credentials
-The assessment API token is already configured in `src/api/client.js`:
-```js
-const API_TOKEN = 'trial_51869851_c04cf7af301eae1c3b702156189558fe';
-```
-
-Assessment entity reference:
 ```text
-gunjit15@gmail.com
+android/app/build/outputs/apk/release/app-release.apk
 ```
 
-Note: the app sends `X-Api-Token`, `Authorization`, and `entity` headers for the assessment APIs.
+## Notes
 
-### API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/trial/sendOtp` | Send OTP to phone |
-| POST | `/trial/verifyOtp` | Verify OTP, receive JWT |
-| GET | `/sports/` | Fetch sports list |
-| GET | `/trial/player` | Get existing profile |
-| POST | `/trial/player` | Save profile (under `player_data` key) |
-
----
-
-## 🔑 Key Design Decisions
-
-1. **Single POST on Submit**: Form data is stored in Redux across screens, and only a single `POST /trial/player` call is made on Screen 3 (Feedback Submit) with the complete `player_data` payload.
-
-2. **Launch Logic**: After OTP verification, the app calls `GET /trial/player`. If data exists → navigate to Summary. If 404 → start at Basic Info.
-
-3. **Reinstall Scenario**: User authenticates again via OTP → GET returns previously saved data → navigates to Summary.
-
-4. **Navigation Persistence**: Redux stores all form fields, so pressing Back retains entered data. Cleared only on Logout.
-
-5. **Dark Theme**: Uses a dark UI with blue primary actions and compact form screens aligned to the provided assessment design.
-
-6. **Animated Interactions**: Input focus border animation, button press scale effect, OTP input shake on error.
-
----
-
-## ✅ Validation Rules
-
-| Field | Rule |
-|-------|------|
-| Name | Non-empty (required) |
-| Address Line 1 | Non-empty (required) |
-| Address Line 2 | Optional |
-| Pin Code | 6 digits (required) |
-| Sport | Must be selected (required) |
-| Playing Status | Optional |
-| Feedback | Optional |
-
----
-
-## 📦 Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| `@reduxjs/toolkit` | State management |
-| `react-redux` | React bindings for Redux |
-| `@react-navigation/native` | Navigation framework |
-| `@react-navigation/stack` | Stack-based navigation |
-| `react-native-screens` | Native navigation optimization |
-| `react-native-safe-area-context` | Safe area handling |
-| `react-native-gesture-handler` | Gesture support |
-| `react-native-reanimated` | Smooth animations |
-| `axios` | HTTP requests |
-
----
-
-## 📝 Submission Checklist
-
-- Push the codebase to a GitHub repository with this README.
-- Attach the release APK from `android/app/build/outputs/apk/release/app-release.apk`.
-- Record a demo video covering:
-  - Send OTP -> Verify OTP
-  - New user flow through Basic Info -> Sports Info -> Feedback -> Summary
-  - Back/Next navigation persistence
-  - Logout
-  - Re-login / reinstall scenario showing saved profile data loading into Summary
-
-### Suggested Demo Script
-1. Open the app and send OTP with a valid phone number.
-2. Verify OTP and show either Summary or the empty-state form flow.
-3. Fill all required fields, submit once on Feedback, and land on Summary.
-4. Tap Edit, go back and forth across screens, and show the form values persist.
-5. Logout, log back in, and show previously saved data returned from `GET /trial/player`.
+- Form state is stored in Redux and preserved across Back/Next navigation.
+- Form data is cleared on logout.
+- Existing profile handling is based on `GET /trial/player`.
+- The app is built with React Native CLI, not Expo.
